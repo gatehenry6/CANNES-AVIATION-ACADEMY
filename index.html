@@ -3,225 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AvisPro - Générateur Intelligent</title>
-    
+    <title>CANNES AVIATION - Feedback System</title>
     <style>
         :root {
-            --primary: #8b5cf6;
-            --primary-dark: #7c3aed;
-            --bg: #f8fafc;
-            --card: #ffffff;
-            --text: #1e293b;
-            --border: #e2e8f0;
+            --aviation-navy: #0a192f;
+            --aviation-gold: #c5a059;
+            --google-blue: #4285F4;
+            --bg: #f4f7f9;
+            --white: #ffffff;
         }
 
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg: #0f172a;
-                --card: #1e293b;
-                --text: #f1f5f9;
-                --border: #334155;
-            }
-        }
-
-        * { box-sizing: border-box; transition: all 0.3s ease; }
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
         body {
             margin: 0;
-            font-family: 'Inter', system-ui, sans-serif;
             background: var(--bg);
-            color: var(--text);
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
             padding: 20px;
-            min-height: 100vh;
+            color: var(--aviation-navy);
         }
 
-        .app-wrapper {
+        /* --- HEADER PREMIUM --- */
+        .logo-area {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid var(--aviation-gold);
+            padding-bottom: 10px;
+        }
+
+        .logo-area h1 {
+            margin: 0;
+            letter-spacing: 4px;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+        }
+
+        /* --- CARTE DE SAISIE --- */
+        .config-card {
+            background: var(--white);
             width: 100%;
-            max-width: 500px;
+            max-width: 550px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
         }
 
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            padding: 2rem;
-            border-radius: 24px;
-            shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
 
-        .header { text-align: center; margin-bottom: 2rem; }
-        .header h1 { font-size: 1.8rem; margin: 0; background: linear-gradient(to right, #8b5cf6, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .full-width { grid-column: span 2; }
 
-        .form-group { margin-bottom: 1.2rem; }
-        label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.8; }
+        label { font-size: 0.75rem; font-weight: bold; text-transform: uppercase; color: #777; }
 
         input, select {
             width: 100%;
-            padding: 12px 16px;
-            border-radius: 12px;
-            border: 2px solid var(--border);
-            background: transparent;
-            color: var(--text);
+            padding: 12px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
             font-size: 1rem;
         }
 
-        input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1); }
-
-        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 1.5rem; }
-
-        button {
-            padding: 14px;
-            border-radius: 12px;
-            border: none;
-            font-weight: 600;
+        .btn-fly {
+            width: 100%;
+            background: var(--aviation-navy);
+            color: var(--aviation-gold);
+            border: 1px solid var(--aviation-gold);
+            padding: 15px;
+            margin-top: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
             cursor: pointer;
+            transition: 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .btn-fly:hover {
+            background: var(--aviation-gold);
+            color: var(--aviation-navy);
+        }
+
+        /* --- SIMULATION GOOGLE --- */
+        #google-preview {
+            display: none;
+            width: 100%;
+            max-width: 550px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            animation: fadeIn 0.6s ease;
+        }
+
+        .google-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .google-logo {
+            width: 80px;
+            margin-right: 15px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: #e67e22;
+            color: white;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            font-weight: bold;
         }
 
-        .btn-main { background: var(--primary); color: white; grid-column: span 2; }
-        .btn-main:hover { background: var(--primary-dark); transform: scale(1.02); }
+        .google-stars { color: #fbbc05; font-size: 1.2rem; margin-bottom: 8px; }
 
-        .btn-secondary { background: var(--border); color: var(--text); font-size: 0.9rem; }
+        .google-text { font-size: 0.95rem; line-height: 1.5; color: #3c4043; margin-bottom: 15px; }
 
-        #result-area {
-            margin-top: 2rem;
-            display: none;
-            animation: fadeIn 0.5s ease;
+        .google-actions {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            display: flex;
+            gap: 10px;
         }
 
-        .output-box {
-            background: rgba(139, 92, 246, 0.05);
-            border: 1px dashed var(--primary);
-            padding: 20px;
-            border-radius: 16px;
-            line-height: 1.6;
-            position: relative;
-        }
-
-        .history {
-            margin-top: 2rem;
+        .btn-copy {
+            background: #f8f9fa;
+            border: 1px solid #dadce0;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
             font-size: 0.85rem;
-            border-top: 1px solid var(--border);
-            padding-top: 1rem;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-<div class="app-wrapper">
-    <div class="card">
-        <div class="header">
-            <h1>AvisPro AI</h1>
-            <p style="opacity: 0.6; font-size: 0.9rem;">Générateur de témoignages haute conversion</p>
-        </div>
+<div class="logo-area">
+    <h1>CANNES AVIATION</h1>
+    <div style="font-size: 0.7rem; color: var(--aviation-gold); letter-spacing: 2px;">ACADEMY & CHARTER</div>
+</div>
 
-        <div class="form-group">
-            <label>👤 Nom du client</label>
-            <input type="text" id="nom" placeholder="Jean Valjean" oninput="checkForm()">
+<div class="config-card">
+    <div class="form-grid">
+        <div class="form-group full-width">
+            <label>Nom du Pilote / Client</label>
+            <input type="text" id="nom" placeholder="ex: Jean-Pierre Durand">
         </div>
-
         <div class="form-group">
-            <label>🛠️ Service / Produit</label>
-            <input type="text" id="service" placeholder="Rénovation toiture" oninput="checkForm()">
-        </div>
-
-        <div class="form-group">
-            <label>📍 Ville</label>
-            <input type="text" id="ville" placeholder="Marseille" oninput="checkForm()">
-        </div>
-
-        <div class="form-group">
-            <label>⭐ Note</label>
-            <select id="note">
-                <option value="5">Excellent (5/5)</option>
-                <option value="4">Très bien (4/5)</option>
-                <option value="3">Correct (3/5)</option>
+            <label>Expérience</label>
+            <select id="service">
+                <option value="Formation PPL">Formation PPL</option>
+                <option value="Vol d'initiation">Vol d'initiation</option>
+                <option value="Qualification IFR">Qualification IFR</option>
+                <option value="Location d'avion">Location d'avion</option>
             </select>
         </div>
-
-        <button class="btn-main" id="gen-btn" onclick="processAvis()">
-            ✨ Générer l'avis parfait
-        </button>
-
-        <div id="result-area">
-            <div class="output-box" id="output-text"></div>
-            <div class="btn-group">
-                <button class="btn-secondary" onclick="copyText()">📋 Copier</button>
-                <button class="btn-secondary" onclick="shareWA()">💬 WhatsApp</button>
-            </div>
+        <div class="form-group">
+            <label>Note</label>
+            <select id="note">
+                <option value="5">5/5 - Excellence</option>
+                <option value="4">4/5 - Très bien</option>
+            </select>
         </div>
+    </div>
+    <button class="btn-fly" onclick="decollage()">✈️ Générer l'avis Google</button>
+</div>
 
-        <div class="history" id="history-section" style="display:none;">
-            <label>Derniers avis générés</label>
-            <div id="history-list"></div>
+<div id="google-preview">
+    <div class="google-header">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/2560px-Google_2015_logo.svg.png" class="google-logo" alt="Google">
+        <span style="color: #70757a; font-size: 0.9rem;">Avis sur Cannes Aviation</span>
+    </div>
+
+    <div class="user-info">
+        <div class="user-avatar" id="avatar-letter">J</div>
+        <div>
+            <div style="font-weight: bold; font-size: 0.9rem;" id="preview-name">Jean-Pierre Durand</div>
+            <div style="color: #70757a; font-size: 0.75rem;">Il y a un instant - Local Guide</div>
         </div>
+    </div>
+
+    <div class="google-stars" id="preview-stars">★★★★★</div>
+    
+    <div class="google-text" id="preview-text">
+        C'est ici que l'avis généré s'affichera...
+    </div>
+
+    <div class="google-actions">
+        <button class="btn-copy" onclick="copyContent()">Copier l'avis</button>
+        <button class="btn-copy" style="background: var(--google-blue); color: white; border: none;" onclick="window.open('https://www.google.com/maps', '_blank')">Publier sur Google</button>
     </div>
 </div>
 
 <script>
-    const library = {
-        intros: ["Top !", "Incroyable service.", "Je suis bluffé.", "Une pépite !", "Enfin des pros."],
-        details: [
-            "L'attention portée aux détails est folle.",
-            "Ils ont compris mon besoin immédiatement.",
-            "Rapide, propre et efficace. Que demander de plus ?",
-            "Le rapport qualité/prix est imbattable dans la région.",
-            "On sent l'expérience et la passion du métier."
+    const dataAviation = {
+        intros: [
+            "Une expérience de vol inoubliable !",
+            "Formation d'une qualité exceptionnelle.",
+            "Cannes Aviation est sans doute la meilleure école.",
+            "Un accueil digne d'une grande compagnie.",
+            "Infrastructures et avions au top."
         ],
-        concl: ["Allez-y les yeux fermés.", "Je recommande à 200%.", "Un grand merci à toute l'équipe !", "Propriétaire super sympa en plus.", "À très bientôt pour la suite."]
+        details: [
+            "Les instructeurs sont pédagogues et très pointus.",
+            "La flotte Diamond est moderne et parfaitement entretenue.",
+            "Le cadre de vol au-dessus de la Côte d'Azur est magique.",
+            "L'accompagnement administratif et technique est irréprochable.",
+            "Sécurité et professionnalisme sont les maîtres mots ici."
+        ],
+        concl: [
+            "Je recommande vivement à tout futur pilote.",
+            "Hâte de remonter à bord !",
+            "Une étape clé dans ma carrière aéronautique.",
+            "Merci à toute l'équipe de Cannes Aviation.",
+            "Le top du top sur l'aéroport de Cannes-Mandelieu."
+        ]
     };
 
-    function checkForm() {
-        const fields = ['nom', 'service', 'ville'];
-        const isReady = fields.every(f => document.getElementById(f).value.length > 2);
-        document.getElementById('gen-btn').style.opacity = isReady ? "1" : "0.5";
-    }
-
-    function processAvis() {
+    function decollage() {
         const nom = document.getElementById('nom').value;
         const service = document.getElementById('service').value;
-        const ville = document.getElementById('ville').value;
-        const note = document.getElementById('note').value;
+        const note = parseInt(document.getElementById('note').value);
 
-        if(!nom || !service || !ville) return alert("Remplissez tout pour un résultat magique !");
+        if(!nom) { alert("Veuillez entrer un nom."); return; }
 
-        const etoiles = "⭐".repeat(note);
-        const texte = `${etoiles}\n"${library.intros[Math.floor(Math.random()*library.intros.length)]} ${library.details[Math.floor(Math.random()*library.details.length)]} Pour mon projet de ${service} à ${ville}, c'était parfait. ${library.concl[Math.floor(Math.random()*library.concl.length)]}"\n— ${nom}`;
+        // Génération du texte
+        const texte = `${dataAviation.intros[Math.floor(Math.random()*5)]} ${dataAviation.details[Math.floor(Math.random()*5)]} Ma session de ${service.toLowerCase()} s'est déroulée à merveille. ${dataAviation.concl[Math.floor(Math.random()*5)]}`;
 
-        const out = document.getElementById('output-text');
-        out.innerText = texte;
-        document.getElementById('result-area').style.display = 'block';
+        // Mise à jour de la simulation Google
+        document.getElementById('preview-name').innerText = nom;
+        document.getElementById('avatar-letter').innerText = nom.charAt(0).toUpperCase();
+        document.getElementById('preview-stars').innerText = "★".repeat(note) + "☆".repeat(5-note);
+        document.getElementById('preview-text').innerText = texte;
         
-        // Ajout à l'historique
-        addHistory(nom, note);
+        // Affichage
+        document.getElementById('google-preview').style.display = 'block';
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
 
-    function addHistory(nom, note) {
-        const hist = document.getElementById('history-section');
-        const list = document.getElementById('history-list');
-        hist.style.display = 'block';
-        const item = document.createElement('div');
-        item.style.padding = "5px 0";
-        item.innerHTML = `• <b>${nom}</b> (${note}/5) - ${new Date().toLocaleTimeString()}`;
-        list.prepend(item);
-    }
-
-    function copyText() {
-        navigator.clipboard.writeText(document.getElementById('output-text').innerText);
-        alert("Copié dans le presse-papier !");
-    }
-
-    function shareWA() {
-        const text = encodeURIComponent(document.getElementById('output-text').innerText);
-        window.open(`https://wa.me/?text=${text}`, '_blank');
+    function copyContent() {
+        const text = document.getElementById('preview-text').innerText;
+        navigator.clipboard.writeText(text);
+        alert("Avis copié ! Prêt à être collé sur Google Maps.");
     }
 </script>
+
 </body>
 </html>
-
