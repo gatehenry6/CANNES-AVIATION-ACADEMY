@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur d'Avis Pro - Tout-en-un</title>
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg: #0f172a;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            background-image: radial-gradient(circle at top right, #1e1b4b, var(--bg));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-main);
+        }
+
+        .container {
+            background: var(--card-bg);
+            width: 90%;
+            max-width: 480px;
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.75rem;
+            letter-spacing: -0.025em;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #f1f5f9;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            background: #f8fafc;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-generate {
+            background: var(--primary);
+            color: white;
+            margin-top: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-generate:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-copy {
+            background: #f1f5f9;
+            color: var(--text-main);
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-copy:hover {
+            background: #e2e8f0;
+        }
+
+        #result-box {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid #f1f5f9;
+            display: none; /* Masqué au départ */
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .review-text {
+            background: #f8fafc;
+            padding: 1.25rem;
+            border-radius: 16px;
+            font-style: italic;
+            line-height: 1.6;
+            color: #334155;
+            border: 1px solid #e2e8f0;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>✨ Avis Express</h1>
+        <p class="subtitle">Créez des témoignages clients crédibles</p>
+    </header>
+
+    <div class="form-group">
+        <label for="nom">Nom du client</label>
+        <input type="text" id="nom" placeholder="ex: Thomas Bernard">
+    </div>
+
+    <div class="form-group">
+        <label for="service">Prestation</label>
+        <input type="text" id="service" placeholder="ex: Création de logo">
+    </div>
+
+    <div class="form-group">
+        <label for="ville">Ville</label>
+        <input type="text" id="ville" placeholder="ex: Paris">
+    </div>
+
+    <div class="form-group">
+        <label for="note">Note de satisfaction</label>
+        <select id="note">
+            <option value="5">⭐⭐⭐⭐⭐ (Excellent)</option>
+            <option value="4">⭐⭐⭐⭐ (Très bien)</option>
+            <option value="3">⭐⭐⭐ (Satisfaisant)</option>
+        </select>
+    </div>
+
+    <button class="btn-generate" onclick="genererAvis()">🚀 Générer l'avis</button>
+
+    <div id="result-box">
+        <div class="review-text" id="resultat"></div>
+        <button class="btn-copy" onclick="copierPressePapier()" id="btn-copy">📋 Copier le texte</button>
+    </div>
+</div>
+
+<script>
+    const bddPhrases = {
+        intros: [
+            "Une expérience au top !",
+            "Vraiment impressionné par la qualité.",
+            "Je recommande les yeux fermés.",
+            "Service irréprochable du début à la fin.",
+            "Quelle efficacité !"
+        ],
+        corps: [
+            "Le travail est soigné et les délais respectés.",
+            "L'équipe est très professionnelle et à l'écoute.",
+            "Tout a été réalisé selon mes attentes, voire plus.",
+            "Communication fluide et résultat impeccable.",
+            "Un vrai savoir-faire, ça fait plaisir à voir."
+        ],
+        concl: [
+            "Je repasserai par eux sans hésiter.",
+            "Un grand merci pour ce super boulot.",
+            "Une adresse précieuse à conserver.",
+            "Foncez, vous ne serez pas déçus !",
+            "Mérite largement ses 5 étoiles."
+        ]
+    };
+
+    function random(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function genererAvis() {
+        const nom = document.getElementById('nom').value;
+        const service = document.getElementById('service').value;
+        const ville = document.getElementById('ville').value;
+        const note = document.getElementById('note').value;
+
+        if (!nom || !service || !ville) {
+            alert("Veuillez remplir tous les champs avant de générer !");
+            return;
+        }
+
+        const etoiles = "⭐".repeat(note);
+        
+        // Construction de l'avis
+        const texteFinal = `${etoiles}\n"${random(bddPhrases.intros)} ${random(bddPhrases.corps)} Pour mon projet de ${service.toLowerCase()} à ${ville}, c'était parfait. ${random(bddPhrases.concl)}"\n\n— ${nom}`;
+
+        // Affichage
+        document.getElementById('resultat').innerText = texteFinal;
+        document.getElementById('result-box').style.display = 'block';
+        
+        // Reset du bouton copier
+        document.getElementById('btn-copy').innerText = "📋 Copier le texte";
+    }
+
+    function copierPressePapier() {
+        const texte = document.getElementById('resultat').innerText;
+        navigator.clipboard.writeText(texte).then(() => {
+            const btn = document.getElementById('btn-copy');
+            btn.innerText = "✅ Texte copié !";
+            btn.style.background = "#dcfce7";
+            btn.style.color = "#166534";
+            
+            setTimeout(() => {
+                btn.innerText = "📋 Copier le texte";
+                btn.style.background = "#f1f5f9";
+                btn.style.color = "#1e293b";
+            }, 2000);
+        });
+    }
+</script>
+
+</body>
+</html>
