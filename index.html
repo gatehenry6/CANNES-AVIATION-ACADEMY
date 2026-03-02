@@ -3,295 +3,317 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CANNES AVIATION | Luxury Review Generator</title>
+    <title>CANNES AVIATION | Review Engine</title>
     
     <style>
-        /* --- DESIGN LUXUEUX --- */
         :root {
-            --navy-deep: #050a14;
-            --navy-card: #0c1626;
-            --gold-gradient: linear-gradient(135deg, #e6c280 0%, #b38b45 100%);
-            --gold-solid: #c5a059;
-            --white-pure: #ffffff;
-            --text-gray: #a0aec0;
+            --deep-space: #020617;
+            --aviation-blue: #1e293b;
+            --electric-gold: #fbbf24;
+            --gold-glow: rgba(251, 191, 36, 0.3);
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
-        * { box-sizing: border-box; transition: all 0.3s ease; }
+        * { box-sizing: border-box; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
 
         body {
             margin: 0;
-            background-color: var(--navy-deep);
-            background-image: radial-gradient(circle at top right, #101f33 0%, #050a14 100%);
-            font-family: 'Times New Roman', serif; /* Typographie classique luxe */
+            background-color: var(--deep-space);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.3) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(120, 53, 15, 0.2) 0px, transparent 50%);
+            font-family: 'Inter', -apple-system, sans-serif;
+            color: white;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 40px 20px;
-            color: var(--white-pure);
+            padding: 20px;
+            overflow-x: hidden;
         }
 
-        /* --- HEADER --- */
-        .brand-header {
+        .container {
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        /* --- LOGO & HEADER --- */
+        .header {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
-        .brand-header h1 {
-            font-size: 2.8rem;
-            letter-spacing: 10px;
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -1px;
             margin: 0;
-            text-transform: uppercase;
-            background: var(--gold-gradient);
+            background: linear-gradient(to right, #fff, var(--electric-gold));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: 300;
-        }
-
-        .brand-header p {
-            font-family: 'Arial', sans-serif;
-            font-size: 0.75rem;
-            letter-spacing: 5px;
             text-transform: uppercase;
-            margin-top: 10px;
-            color: var(--gold-solid);
-            opacity: 0.9;
         }
 
-        /* --- CARTE FORMULAIRE --- */
-        .glass-card {
-            background: var(--navy-card);
-            width: 100%;
-            max-width: 600px;
+        .header p {
+            color: #94a3b8;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            margin-top: 8px;
+        }
+
+        /* --- CARD DESIGN --- */
+        .main-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
             padding: 40px;
-            border-radius: 2px;
-            border: 1px solid rgba(197, 160, 89, 0.2);
-            box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        .input-wrapper { margin-bottom: 25px; }
+        .input-box {
+            margin-bottom: 24px;
+        }
 
         label {
             display: block;
-            font-family: 'Arial', sans-serif;
             font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--electric-gold);
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             margin-bottom: 10px;
-            color: var(--gold-solid);
         }
 
         input, select {
             width: 100%;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(197, 160, 89, 0.3);
-            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border);
+            padding: 14px 18px;
+            border-radius: 14px;
             color: white;
             font-size: 1rem;
             outline: none;
-            font-family: 'Arial', sans-serif;
         }
 
-        input:focus, select:focus {
-            border-color: var(--gold-solid);
-            background: rgba(255, 255, 255, 0.05);
+        input:focus {
+            border-color: var(--electric-gold);
+            box-shadow: 0 0 15px var(--gold-glow);
         }
 
-        .btn-gold {
+        /* --- BUTTONS --- */
+        .btn-prime {
             width: 100%;
-            background: var(--gold-gradient);
-            color: var(--navy-deep);
-            border: none;
-            padding: 20px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            cursor: pointer;
-            margin-top: 20px;
-            font-family: 'Arial', sans-serif;
-        }
-
-        .btn-gold:hover {
-            letter-spacing: 4px;
-            filter: brightness(1.1);
-        }
-
-        /* --- GOOGLE PREVIEW --- */
-        #google-preview {
-            display: none;
-            margin-top: 40px;
             background: white;
-            width: 100%;
-            max-width: 600px;
-            padding: 30px;
-            border-radius: 8px;
-            color: #3c4043;
-            animation: fadeIn 0.8s ease;
-        }
-
-        .google-header {
+            color: black;
+            border: none;
+            padding: 18px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
+            justify-content: center;
+            gap: 10px;
         }
 
-        .avatar {
-            width: 45px; height: 45px;
-            background: #1a73e8;
-            color: white;
+        .btn-prime:hover {
+            background: var(--electric-gold);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(251, 191, 36, 0.2);
+        }
+
+        /* --- GOOGLE INTERFACE --- */
+        #review-result {
+            display: none;
+            margin-top: 30px;
+            animation: slideIn 0.5s ease;
+        }
+
+        .google-card {
+            background: white;
+            color: #202124;
+            padding: 24px;
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .google-user {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .google-avatar {
+            width: 40px; height: 40px;
+            background: #4285F4;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: white;
             font-weight: bold;
-            font-family: 'Arial', sans-serif;
         }
 
-        .stars { color: #fbbc05; font-size: 1.4rem; margin: 10px 0; }
+        .stars-row { color: #fbbc05; font-size: 1.2rem; margin: 8px 0; }
 
-        .review-body { font-family: 'Arial', sans-serif; line-height: 1.6; font-size: 1rem; color: #1f1f1f; }
+        .text-body { line-height: 1.5; font-size: 0.95rem; }
 
-        /* --- NAVIGATION / LIENS --- */
-        .footer-nav {
-            margin-top: 50px;
+        .action-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-action {
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #dadce0;
+            background: #f8f9fa;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
             display: flex;
-            gap: 30px;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
 
-        .nav-link {
-            color: var(--gold-solid);
+        .btn-publish {
+            background: #1a73e8 !important;
+            color: white !important;
+            border: none !important;
+        }
+
+        /* --- FOOTER NAV --- */
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 30px;
+        }
+
+        .footer-nav a {
+            color: #64748b;
             text-decoration: none;
-            font-size: 0.8rem;
-            font-family: 'Arial', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            opacity: 0.7;
         }
 
-        .nav-link:hover { opacity: 1; border-bottom: 1px solid var(--gold-solid); }
+        .footer-nav a:hover { color: var(--electric-gold); }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-<div class="brand-header">
-    <h1>CANNES AVIATION</h1>
-    <p>Academy & Private Jet Charter</p>
-</div>
-
-<div class="glass-card">
-    <div class="input-wrapper">
-        <label>Identité du Candidat / Client</label>
-        <input type="text" id="nom" placeholder="Ex: Alexandre de Beaumont">
+<div class="container">
+    <div class="header">
+        <h1>Cannes Aviation</h1>
+        <p>Expert Pilot Academy</p>
     </div>
 
-    <div class="input-wrapper">
-        <label>Cursus ou Service</label>
-        <select id="formation">
-            <option value="ATP Intégré">ATP Intégré (Ab-Initio)</option>
-            <option value="ATP Modulaire">ATP Modulaire</option>
-            <option value="PPL">PPL - Private Pilot License</option>
-            <option value="CPL">CPL - Commercial Pilot</option>
-            <option value="IR/ME">Qualification IR / ME (Multi-Engine)</option>
-            <option value="ATPL Théorique">ATPL Théorique</option>
-            <option value="Vol Découverte">Vol Découverte / Initiation</option>
-        </select>
-    </div>
+    <div class="main-card">
+        <div class="input-box">
+            <label>Pilote / Étudiant</label>
+            <input type="text" id="userName" placeholder="Entrez votre nom">
+        </div>
 
-    <div class="input-wrapper">
-        <label>Note Attribuée</label>
-        <select id="note">
-            <option value="5">Excellent ⭐⭐⭐⭐⭐</option>
-            <option value="4">Très Bien ⭐⭐⭐⭐</option>
-            <option value="3">Satisfaisant ⭐⭐⭐</option>
-            <option value="2">Passable ⭐⭐</option>
-            <option value="1">Insatisfaisant ⭐</option>
-        </select>
-    </div>
+        <div class="input-box">
+            <label>Formation Suivie</label>
+            <select id="userFormation">
+                <option value="ATP Intégré">ATP Intégré</option>
+                <option value="ATP Modulaire">ATP Modulaire</option>
+                <option value="PPL">PPL (Licence Privée)</option>
+                <option value="CPL/IR/ME">CPL / IR / ME</option>
+                <option value="ATPL Théorique">ATPL Théorique</option>
+                <option value="Vol d'initiation">Vol d'initiation</option>
+            </select>
+        </div>
 
-    <button class="btn-gold" onclick="genererAvisExpert()">Générer l'avis prestige</button>
-</div>
+        <div class="input-box">
+            <label>Évaluation</label>
+            <select id="userNote">
+                <option value="5">5 Étoiles - Excellence</option>
+                <option value="4">4 Étoiles - Très bien</option>
+                <option value="3">3 Étoiles - Moyen</option>
+                <option value="2">2 Étoiles - Déçu</option>
+                <option value="1">1 Étoile - Mauvais</option>
+            </select>
+        </div>
 
-<div id="google-preview">
-    <div class="google-header">
-        <div class="avatar" id="avatar-circle">?</div>
-        <div>
-            <div style="font-weight: bold; font-family: Arial;" id="google-name">Nom du Client</div>
-            <div style="font-size: 0.75rem; color: #70757a; font-family: Arial;">Il y a un instant • Avis Google</div>
+        <button class="btn-prime" onclick="processReview()">⚡ Générer l'avis</button>
+
+        <div id="review-result">
+            <div class="google-card">
+                <div class="google-user">
+                    <div class="google-avatar" id="avatarLetter">?</div>
+                    <div>
+                        <div style="font-weight: bold; font-size: 0.9rem;" id="displayName">Nom</div>
+                        <div style="font-size: 0.7rem; color: #70757a;">Avis Google • Instantané</div>
+                    </div>
+                </div>
+                <div class="stars-row" id="displayStars">★★★★★</div>
+                <div class="text-body" id="displayText">...</div>
+                
+                <div class="action-grid">
+                    <button class="btn-action" onclick="copyText()">📋 Copier</button>
+                    <button class="btn-action btn-publish" onclick="publishGoogle()">🌍 Publier</button>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="stars" id="google-stars">★★★★★</div>
-    <div class="review-body" id="google-text">Texte de l'avis...</div>
-    
-    <div style="margin-top: 25px; display: flex; gap: 10px;">
-        <button onclick="copyToClipboard()" style="flex:1; padding: 12px; cursor: pointer; border: 1px solid #dadce0; background: #f8f9fa; border-radius: 4px;">Copier le texte</button>
-        <button onclick="window.open('https://www.cannes-aviation.com', '_blank')" style="flex:1; padding: 12px; cursor: pointer; background: #1a73e8; border: none; color: white; border-radius: 4px;">Publier sur Maps</button>
-    </div>
-</div>
 
-<div class="footer-nav">
-    <a href="https://www.instagram.com/cannesaviation_academy/" target="_blank" class="nav-link">Instagram</a>
-    <a href="https://www.cannes-aviation.com" target="_blank" class="nav-link">Site Officiel</a>
-    <a href="mailto:contact@cannes-aviation.com" class="nav-link">Contact</a>
+    <div class="footer-nav">
+        <a href="https://www.instagram.com/cannesaviation_academy/" target="_blank">Instagram</a>
+        <a href="https://www.cannes-aviation.com" target="_blank">Site Web</a>
+    </div>
 </div>
 
 <script>
     const database = {
-        5: {
-            intro: ["Excellence absolue.", "La meilleure école de pilotage de France.", "Une formation d'élite.", "Une flotte Diamond impressionnante."],
-            detail: ["L'instruction sur Diamond DA40/DA42 est un vrai plus.", "L'encadrement pédagogique est d'une rigueur exceptionnelle.", "Le cadre de l'aéroport de Cannes-Mandelieu est parfait pour l'apprentissage.", "On sent un professionnalisme digne des plus grandes compagnies aériennes."],
-            concl: ["Mon ATP Intégré est une réussite totale grâce à vous.", "Je recommande vivement Cannes Aviation.", "Un grand merci à toute l'équipe pour cet accompagnement."]
-        },
-        4: {
-            intro: ["Très bonne académie.", "Formation de haute qualité.", "Une expérience très positive."],
-            detail: ["Les instructeurs sont pédagogues et très disponibles.", "Les infrastructures sont modernes et accueillantes.", "Bonne préparation aux examens pratiques et théoriques."],
-            concl: ["Une école sérieuse que je conseille.", "Bilan très positif pour ma licence.", "Hâte de continuer l'aventure avec vous."]
-        },
-        3: {
-            intro: ["Expérience satisfaisante.", "Formation correcte."],
-            detail: ["Les cours sont complets malgré un planning parfois chargé.", "Les avions sont de qualité, bien que très sollicités."],
-            concl: ["Bonne école dans l'ensemble.", "Merci pour l'accueil."]
-        },
-        2: {
-            intro: ["Quelques déceptions.", "Peut mieux faire."],
-            detail: ["Des difficultés d'organisation au niveau du planning.", "La communication pourrait être plus fluide."],
-            concl: ["Expérience mitigée.", "Dommage car le cadre est superbe."]
-        },
-        1: {
-            intro: ["Je ne recommande pas.", "Expérience décevante."],
-            detail: ["Trop de problèmes de disponibilité pour voler.", "Le suivi administratif n'était pas à la hauteur de mes attentes."],
-            concl: ["Je me dirigerai vers une autre école.", "Déçu par ce cursus."]
-        }
+        5: ["Excellence totale ! Mon ATP Intégré chez Cannes Aviation a été parfait. La flotte Diamond et les instructeurs sont au top niveau.", "Meilleure école de la Côte d'Azur. Un cadre de vol incroyable et un professionnalisme digne des grandes compagnies.", "Une formation de pilote rigoureuse et passionnante. Tout est fait pour réussir son avenir dans l'aérien."],
+        4: ["Très bonne école. La formation est solide et les avions parfaitement entretenus. Je recommande vivement.", "Une équipe pédagogique à l'écoute et un cadre de travail idéal pour progresser sereinement.", "Formation sérieuse et efficace. Très satisfait de mon cursus ici."],
+        3: ["Bilan correct. La formation est de qualité malgré un emploi du temps parfois chargé.", "Satisfait dans l'ensemble, même si l'organisation pourrait être optimisée."],
+        2: ["Expérience mitigée. Quelques soucis de planning et de communication durant ma formation.", "Déçu par certains aspects administratifs malgré la qualité des instructeurs."],
+        1: ["Je ne recommande pas. Trop de difficultés pour planifier mes vols et un manque de suivi.", "Expérience décevante au vu de l'investissement demandé. Manque de professionnalisme."]
     };
 
-    function random(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    function processReview() {
+        const name = document.getElementById('userName').value;
+        const formation = document.getElementById('userFormation').value;
+        const note = document.getElementById('userNote').value;
 
-    function genererAvisExpert() {
-        const nom = document.getElementById('nom').value || "Visiteur Elite";
-        const formation = document.getElementById('formation').value;
-        const note = parseInt(document.getElementById('note').value);
+        if(!name) { alert("Veuillez saisir votre nom."); return; }
+
+        const textPool = database[note];
+        const randomText = textPool[Math.floor(Math.random() * textPool.length)];
+        const finalReview = `${randomText} (Cursus : ${formation})`;
+
+        document.getElementById('displayName').innerText = name;
+        document.getElementById('avatarLetter').innerText = name.charAt(0).toUpperCase();
+        document.getElementById('displayStars').innerText = "★".repeat(note) + "☆".repeat(5-note);
+        document.getElementById('displayText').innerText = finalReview;
         
-        const set = database[note];
-        const avisFinal = `${random(set.intro)} ${random(set.detail)} Ma formation en ${formation} s'est déroulée dans des conditions haut de gamme. ${random(set.concl)}`;
-
-        // Mise à jour de l'aperçu Google
-        document.getElementById('google-name').innerText = nom;
-        document.getElementById('avatar-circle').innerText = nom.charAt(0).toUpperCase();
-        document.getElementById('google-stars').innerText = "★".repeat(note) + "☆".repeat(5-note);
-        document.getElementById('google-text').innerText = avisFinal;
-
-        // Affichage
-        document.getElementById('google-preview').style.display = 'block';
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        document.getElementById('review-result').style.display = 'block';
     }
 
-    function copyToClipboard() {
-        const text = document.getElementById('google-text').innerText;
-        navigator.clipboard.writeText(text).then(() => {
-            alert("Avis copié ! Vous pouvez maintenant le coller sur Google.");
-        });
+    function copyText() {
+        const content = document.getElementById('displayText').innerText;
+        navigator.clipboard.writeText(content);
+        alert("Avis copié ! Prêt à être collé.");
+    }
+
+    function publishGoogle() {
+        // Lien direct vers la fenêtre de rédaction d'avis Google pour Cannes Aviation
+        const googleReviewUrl = "https://search.google.com/local/writereview?placeid=ChIJid05G5_FzRIRpNoH9v3D7H0";
+        window.open(googleReviewUrl, '_blank');
     }
 </script>
 
